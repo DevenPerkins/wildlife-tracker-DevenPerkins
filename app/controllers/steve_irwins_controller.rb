@@ -14,7 +14,8 @@ class SteveIrwinsController < ApplicationController
         if @steve.valid?
             render json: @steve
         else
-            render json: @steve.error
+            render json: @steve.errors
+            
         end
       end
     
@@ -23,7 +24,7 @@ class SteveIrwinsController < ApplicationController
         if @steve.destroy
             render json: @steve
         else
-            render json: @steve.error
+            render json: @steve.errors
         end
       end
     
@@ -33,7 +34,7 @@ class SteveIrwinsController < ApplicationController
         if @steve.valid?
             render json: @steve
         else
-            render json: @steve.error
+            render json: @steve.errors
         end
       end
     

@@ -1,3 +1,5 @@
 class Sighting < ApplicationRecord
     belongs_to :steve_irwin
-end
+
+    validates :date, :lat_long, presence: true
+end 

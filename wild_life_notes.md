@@ -57,14 +57,17 @@ http://localhost:3000/sightings/2
 
 8.Story: As the consumer of the API, when I view a specific animal, I can also see a list sightings of that animal.
 
-
+  def show
+        @steve = SteveIrwin.find(params[:id])
+        render json: @steve.as_json(include: :sightings)
+      end
 
 9.Story: As the consumer of the API, I can run a report to list all sightings during a given time period.
 Hint: Your controller can look something like this:
 class SightingsController < ApplicationController
   def index
-    sightings = Sighting.where(start_date: params[:start_date]..params[:end_date])
-    render json: sightings
+    @sightings = Sighting.where(start_date: params[:start_date]..params[:end_date])
+    render json: @sightings
   end
 end
 Remember to add the start_date and end_date to what is permitted in your strong parameters method.
@@ -73,6 +76,17 @@ Remember to add the start_date and end_date to what is permitted in your strong 
 Note: All of these stories should include the proper RSpec model specs, and the controllers should be tested using Controller specs.
 
 1.Story: As the consumer of the API, I want to see validation errors if a sighting doesn't include: latitude, longitude, or a date.
+
+  in sighting_spec.rb
+    RSpec.describe Sighting, type: :model do
+      it 'must have date, latitude, and longitude present' do
+        emptySighting = Sighting.create date:"", lat_long:""
+        expect(emptySighting.errors[:date]).to_not be_empty
+        expect(emptySighting.errors[:lat_long]).to_not be_empty
+      end
+    end
+
+
 2.Story: As the consumer of the API, I want to see validation errors if an animal doesn't include a common name, or a latin name.
 3.Story: As the consumer of the API, I want to see a validation error if the animals latin name matches exactly the common name.
 4.Story: As the consumer of the API, I want to see a validation error if the animals latin name or common name are not unique.
